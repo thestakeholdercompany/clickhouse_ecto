@@ -35,7 +35,7 @@ defmodule ClickhouseEcto.Migration do
       ?),
       options_expr(table.options),
       if_do(engine != nil, " ENGINE = #{engine}  ", " ENGINE = TinyLog ")
-    ]
+    ] |> List.flatten |> List.to_string
 
     [query]
   end
