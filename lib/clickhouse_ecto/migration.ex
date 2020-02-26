@@ -45,12 +45,12 @@ defmodule ClickhouseEcto.Migration do
       [
         if_do(command == :drop_if_exists, "DROP TABLE IF EXISTS ", "DROP TABLE "),
         quote_table(table.prefix, table.name)
-      ]
+      ] |> List.flatten |> List.to_string
     ]
   end
 
   def execute_ddl({:alter, %Table{} = table, changes}) do
-    query = [column_changes(table, changes)]
+    query = [column_changes(table, changes)] |> List.flatten |> List.to_string
 
     [query]
   end
@@ -63,7 +63,7 @@ defmodule ClickhouseEcto.Migration do
         quote_name([current_table.prefix, current_table.name]),
         " TO ",
         quote_name(new_table.name)
-      ]
+      ] |> List.flatten |> List.to_string
     ]
   end
 
